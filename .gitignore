@@ -1,0 +1,15 @@
+ Node.js
+node_modules/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Системні файли
+.DS_Store
+Thumbs.db
+
+# Лог-файли
+*.log
+npm-debug.log*
