@@ -1,5 +1,6 @@
  Node.js
 node_modules/
+/node_modules
 .env
 
 # IDE
@@ -13,3 +14,5 @@ Thumbs.db
 # Лог-файли
 *.log
 npm-debug.log*
+
+/build
