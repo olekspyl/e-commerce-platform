@@ -4,6 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"@chakra-ui/react": "^3.5.1",
+		"@craco/craco": "^7.1.0",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
 		"@reduxjs/toolkit": "^2.5.1",
@@ -24,10 +25,10 @@
 		"yup": "^1.6.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"start": "craco start",
+		"build": "craco build",
+		"test": "craco test",
+		"eject": "craco eject"
 	},
 	"eslintConfig": {
 		"extends": [
