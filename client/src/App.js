@@ -1,5 +1,11 @@
+import ProductsScreen from './screens/ProductsScreen';
+
 function App() {
-	return <div>app page</div>;
+	return (
+		<div>
+			<ProductsScreen />
+		</div>
+	);
 }
 
 export default App;
