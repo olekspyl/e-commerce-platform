@@ -6,6 +6,7 @@ const MotionBox = motion.create(Box);
 const ProductCard = ({ product, loading }) => {
 	return (
 		<MotionBox
+			isLoaded={!loading}
 			initial={{ opacity: 0 }}
 			animate={{ opacity: loading ? 0.5 : 1 }}
 			transition={{ duration: 0.3 }}
@@ -14,7 +15,7 @@ const ProductCard = ({ product, loading }) => {
 			overflow='hidden'
 			p='4'
 			shadow='md'>
-			<Image />
+			<Image src={product.images[0]} fallbackSrc='https://via/placeholder.com/150' alt={product.name} height='200px' />
 			{product.stock < 5 ? (
 				<Badge color='yellow.500'> only {product.stock} left</Badge>
 			) : product.stock < 1 ? (
