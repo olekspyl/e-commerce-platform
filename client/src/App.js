@@ -1,10 +1,10 @@
 import ProductsScreen from './screens/ProductsScreen';
-
+import { Provider } from '@/components/ui/provider';
 function App() {
 	return (
-		<div>
+		<Provider>
 			<ProductsScreen />
-		</div>
+		</Provider>
 	);
 }
 
