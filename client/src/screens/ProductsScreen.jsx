@@ -1,19 +1,24 @@
-import { Box, Flex, Center } from '@chakra-ui/react';
-import ProductCard from '../components/ProductCard';
-import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, Center, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ProductCard from '../components/ProductCard';
 import { getProducts } from '../redux/actions/productActions';
+import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
 
 const ProductsScreen = () => {
 	const dispatch = useDispatch();
-	const { loading, error, products, pagination } = useSelector((state) => state.product);
+	const { loading, error, products, pagination, favoritesToggled } = useSelector((state) => state.product);
 	useEffect(() => {
-		dispatch(getProducts());
+		dispatch(getProducts(1));
 	}, [dispatch]);
+
+	const paginationButtonClick = (page) => {
+		dispatch(getProducts(page));
+	};
 
 	return (
 		<>
-			{products.length > 1 && (
+			{products.length >= 1 && (
 				<Box>
 					<Flex wrap='wrap' spacing='30px' justify='center' minHeight='80vh' mx={{ base: '12', md: '20', lg: '32' }}>
 						{products.map((product) => (
