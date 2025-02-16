@@ -1,9 +1,16 @@
 import { Box, Image, Text, Badge, Flex, IconButton } from '@chakra-ui/react';
 import { BiExpand } from 'react-icons/bi';
 import { motion } from 'framer-motion';
+import { addToFavorites, removeFromFavorites } from '../redux/actions/productActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
+
 const MotionBox = motion.create(Box);
 
 const ProductCard = ({ product, loading }) => {
+	const dispatch = useDispatch();
+	const { favorites } = useSelector((state) => state.product);
+
 	return (
 		<MotionBox
 			isLoaded={!loading}
@@ -40,9 +47,20 @@ const ProductCard = ({ product, loading }) => {
 					${product.price}
 				</Text>
 			</Flex>
-			<IconButton bg='cyan.600' size='sm' color='black' aria-label='expand'>
-				<BiExpand size='20' />
-			</IconButton>
+			<Flex justify='space-between' mt='2'>
+				{favorites.includes(product._id) ? (
+					<IconButton size='sm' bg='cyan.600' color='black' onClick={() => dispatch(removeFromFavorites(product._id))}>
+						<MdOutlineFavorite />
+					</IconButton>
+				) : (
+					<IconButton size='sm' bg='cyan.600' color='black' onClick={() => dispatch(addToFavorites(product._id))}>
+						<MdOutlineFavoriteBorder />
+					</IconButton>
+				)}
+				<IconButton bg='cyan.600' size='sm' color='black' aria-label='expand'>
+					<BiExpand size='20' />
+				</IconButton>
+			</Flex>
 		</MotionBox>
 	);
 };
