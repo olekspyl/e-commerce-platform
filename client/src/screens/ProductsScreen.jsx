@@ -1,9 +1,9 @@
-import { Box, Button, Center, Flex } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, IconButton } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../redux/actions/productActions';
-import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons';
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 const ProductsScreen = () => {
 	const dispatch = useDispatch();
@@ -29,6 +29,30 @@ const ProductsScreen = () => {
 							</Box>
 						))}
 					</Flex>
+					{!favoritesToggled && (
+						<Flex spacing='10px' justify='center' p='5'>
+							<Button bg='cyan.600' onClick={() => paginationButtonClick(1)}>
+								<IconButton size='sm' bg='cyan.600'>
+									<FiArrowLeft />
+								</IconButton>
+							</Button>
+							{Array.from(Array(pagination.totalPages), (e, i) => {
+								return (
+									<Button
+										bg={pagination.currentPage === i + 1 ? 'cyan.600' : 'grey'}
+										key={i}
+										onClick={() => paginationButtonClick(i + 1)}>
+										{i + 1}
+									</Button>
+								);
+							})}
+							<Button bg='cyan.600' onClick={() => paginationButtonClick(pagination.totalPages)}>
+								<IconButton size='sm' bg='cyan.600'>
+									<FiArrowRight />
+								</IconButton>
+							</Button>
+						</Flex>
+					)}
 				</Box>
 			)}
 		</>
