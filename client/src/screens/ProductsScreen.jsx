@@ -1,15 +1,4 @@
-import {
-	Alert,
-	AlertTitle,
-	AlertIcon,
-	AlertDescription,
-	Box,
-	Button,
-	Center,
-	Wrap,
-	Flex,
-	IconButton,
-} from '@chakra-ui/react';
+import { Alert, AlertTitle, AlertIcon, AlertDescription, Box, Button, Center, Wrap, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../components/ProductCard';
@@ -52,9 +41,7 @@ const ProductsScreen = () => {
 					{!favoritesToggled && (
 						<Flex spacing='10px' justify='center' p='5'>
 							<Button bg='cyan.600' onClick={() => paginationButtonClick(1)}>
-								<IconButton size='sm' bg='cyan.600'>
-									<FiArrowLeft />
-								</IconButton>
+								<FiArrowLeft size={20} bg='cyan.600' />
 							</Button>
 							{Array.from(Array(pagination.totalPages), (e, i) => {
 								return (
@@ -67,9 +54,7 @@ const ProductsScreen = () => {
 								);
 							})}
 							<Button bg='cyan.600' onClick={() => paginationButtonClick(pagination.totalPages)}>
-								<IconButton size='sm' bg='cyan.600'>
-									<FiArrowRight />
-								</IconButton>
+								<FiArrowRight size={20} bg='cyan.600' />
 							</Button>
 						</Flex>
 					)}
