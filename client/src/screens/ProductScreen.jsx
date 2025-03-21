@@ -12,6 +12,7 @@ import {
 	HStack,
 	Heading,
 	Image,
+	useToast,
 	SimpleGrid,
 	Spinner,
 	Stack,
@@ -24,13 +25,15 @@ import { useParams } from 'react-router-dom';
 import { getProduct } from '../redux/actions/productActions';
 import { useEffect, useState } from 'react';
 import Star from '../components/Star';
+import { addCartItem } from '../redux/actions/cartActions';
 
 const ProductScreen = () => {
 	const [amount, setAmount] = useState(1);
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const { loading, error, product } = useSelector((state) => state.product);
-
+	const { cartItems } = useSelector((state) => state.cart);
+	const toast = useToast();
 	useEffect(() => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);
@@ -42,6 +45,21 @@ const ProductScreen = () => {
 		if (input === 'minus') {
 			setAmount(amount - 1);
 		}
+	};
+
+	const addItem = () => {
+		if (cartItems.some((cartItem) => cartItem.id === id)) {
+			cartItems.find((cartItem) => cartItem.id === id);
+			dispatch(addCartItem(id, amount));
+		} else {
+			dispatch(addCartItem(id, amount));
+		}
+
+		toast({
+			description: 'Item added to cart',
+			status: 'success',
+			isClosable: true,
+		});
 	};
 	return (
 		<Wrap spacing='30px' justify='center' minHeight='100vh'>
@@ -108,12 +126,19 @@ const ProductScreen = () => {
 									<Badge fontSize='lg' width='170px' textAlign='center' colorScheme='gray'>
 										In Stock: {product.stock}
 									</Badge>
-									<Button varient='outline' isDisabled={product.stock === 0} colorScheme='cyan' onClick={() => {}}>
+									<Button
+										varient='outline'
+										isDisabled={product.stock === 0}
+										colorScheme='cyan'
+										onClick={() => addItem()}>
 										Add cart
 									</Button>
 									<Stack width='270px'>
 										<Flex alignItems='center'>
 											<BiPackage size='20px' />
+											<Text fontWeight='medium' fontSize='sm' ml='2'>
+												Shipped in 2-3 days
+											</Text>
 										</Flex>
 										<Flex alignItems='center'>
 											<BiCheckShield size='20px' />
