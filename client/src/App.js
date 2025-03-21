@@ -17,8 +17,8 @@ function App() {
 					<Header />
 					<main>
 						<Routes>
-							<Route path='/' element={<LandingScreen />} />
 							<Route path='/products' element={<ProductsScreen />} />
+							<Route path='/' element={<LandingScreen />} />
 							<Route path='/product/:id' element={<ProductScreen />} />
 							<Route path='/cart' element={<CartScreen />} />
 						</Routes>

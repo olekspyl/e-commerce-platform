@@ -72,7 +72,7 @@ const Header = () => {
 							</NavLink>
 						))}
 						<Box>
-							<IconButton ml='12' icon={<TbShoppingCart size='20px' />} as={ReactLink} to='/cart' variant='ghost' />
+							<IconButton icon={<TbShoppingCart size='20px' />} as={ReactLink} to='/cart' variant='ghost' />
 							{cartItems.length > 0 && (
 								<Text fontWeight='bold' fontStyle='italic' ml='26px' mt='-6' fontSize='sm'>
 									{cartItems.length}
