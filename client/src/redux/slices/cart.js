@@ -49,7 +49,7 @@ export const cartSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 		},
-		setShippingCostts: (state, { payload }) => {
+		setShippingCosts: (state, { payload }) => {
 			state.shipping = payload;
 			localStorage.setItem('shipping', payload);
 		},

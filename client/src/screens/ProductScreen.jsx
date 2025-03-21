@@ -34,6 +34,7 @@ const ProductScreen = () => {
 	const { loading, error, product } = useSelector((state) => state.product);
 	const { cartItems } = useSelector((state) => state.cart);
 	const toast = useToast();
+
 	useEffect(() => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);

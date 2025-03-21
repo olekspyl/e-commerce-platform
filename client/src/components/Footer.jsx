@@ -12,7 +12,7 @@ import {
 	Flex,
 	Icon,
 } from '@chakra-ui/react';
-import { FaGitHub, FaLinkedin, FaFacebook } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaFacebook } from 'react-icons/fa';
 import { BsPhoneFlip } from 'react-icons/bs';
 
 const Footer = () => (
@@ -25,7 +25,7 @@ const Footer = () => (
 				py={{ base: '12', md: '16' }}>
 				<Stack spacing={{ base: '6', md: '8' }} align='start'>
 					<Flex alignItems='center'>
-						<Icon as={<BsPhoneFlip />} h='10' w='10' color={mode('black', 'yellow.200')} />
+						<Icon icon={BsPhoneFlip} h='10' w='10' color={mode('black', 'yellow.200')} />
 						<Text fontSize='2xl' fontWeight='extrabold'>
 							Tech Lines
 						</Text>
@@ -54,8 +54,30 @@ const Footer = () => (
 							</Stack>
 						</Stack>
 					</Stack>
+					<Stack spacing='4'>
+						<Text fontSize='sm' fontWeight='semibold' color='subtle'>
+							Stay up to date
+						</Text>
+						<Stack spacing='4' direction={{ base: 'column', sm: 'row' }} maxW={{ lg: '360px' }}>
+							<Input placeholder='Enter your email' type='email' required />
+							<Button variant='primary' type='submit' flexShrink='0'>
+								Subscribe
+							</Button>
+						</Stack>
+					</Stack>
 				</Stack>
 			</Stack>
+			<Divider />
+			<Stack pt='8' pb='12' justify='space-between' direction={{ base: 'column-reverse', md: 'row' }} align='center'>
+				<Text fontSize='sm' color='subtle'>
+					&copy; {new Date().getFullYear()} Tech Lines, Inc. All rights reserved.
+				</Text>
+			</Stack>
+			<ButtonGroup variant='ghost'>
+				<IconButton as='a' href='#' icon={<FaLinkedin fontSize='1.25rem' />} />
+				<IconButton as='a' href='#' icon={<FaGithub fontSize='1.25rem' />} />
+				<IconButton as='a' href='#' icon={<FaFacebook fontSize='1.25rem' />} />
+			</ButtonGroup>
 		</Container>
 	</Box>
 );
