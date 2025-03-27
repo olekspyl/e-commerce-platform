@@ -1,5 +1,4 @@
-import React from 'react';
-import { MinusIcon, SmallAddIcon } from '@chakra-ui/icons';
+import { MinusIcon, SmallAddIcon } from '@chakra-ui/icons'
 import {
 	Alert,
 	AlertDescription,
@@ -12,61 +11,68 @@ import {
 	HStack,
 	Heading,
 	Image,
-	useToast,
 	SimpleGrid,
 	Spinner,
 	Stack,
 	Text,
 	Wrap,
-} from '@chakra-ui/react';
-import { BiCheckShield, BiPackage, BiSupport } from 'react-icons/bi';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getProduct } from '../redux/actions/productActions';
-import { useEffect, useState } from 'react';
-import Star from '../components/Star';
-import { addCartItem } from '../redux/actions/cartActions';
+	useToast,
+} from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { BiCheckShield, BiPackage, BiSupport } from 'react-icons/bi'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import Star from '../components/Star'
+import { addCartItem } from '../redux/actions/cartActions'
+import { getProduct } from '../redux/actions/productActions'
 
 const ProductScreen = () => {
-	const [amount, setAmount] = useState(1);
-	const { id } = useParams();
-	const dispatch = useDispatch();
-	const { loading, error, product } = useSelector((state) => state.product);
-	const { cartItems } = useSelector((state) => state.cart);
-	const toast = useToast();
+	const [amount, setAmount] = useState(1)
+	const { id } = useParams()
+	const dispatch = useDispatch()
+	const { loading, error, product } = useSelector(state => state.product)
+	const { cartItems } = useSelector(state => state.cart)
+	const toast = useToast()
 
 	useEffect(() => {
-		dispatch(getProduct(id));
-	}, [dispatch, id]);
+		dispatch(getProduct(id))
+	}, [dispatch, id])
 
-	const changeAmount = (input) => {
+	const changeAmount = input => {
 		if (input === 'plus') {
-			setAmount(amount + 1);
+			setAmount(amount + 1)
 		}
 		if (input === 'minus') {
-			setAmount(amount - 1);
+			setAmount(amount - 1)
 		}
-	};
+	}
 
 	const addItem = () => {
-		if (cartItems.some((cartItem) => cartItem.id === id)) {
-			cartItems.find((cartItem) => cartItem.id === id);
-			dispatch(addCartItem(id, amount));
+		if (cartItems.some(cartItem => cartItem.id === id)) {
+			cartItems.find(cartItem => cartItem.id === id)
+			dispatch(addCartItem(id, amount))
 		} else {
-			dispatch(addCartItem(id, amount));
+			dispatch(addCartItem(id, amount))
 		}
 
 		toast({
 			description: 'Item added to cart',
 			status: 'success',
 			isClosable: true,
-		});
-	};
+		})
+	}
 	return (
 		<Wrap spacing='30px' justify='center' minHeight='100vh'>
 			{loading ? (
 				<Stack direction='row' spacing='4'>
-					<Spinner mt='20' thickness='2px' speed='0.65s' emptyColor='gray.200' color='cyan.500' size='xl' />
+					<Spinner
+						mt='20'
+						thickness='2px'
+						speed='0.65s'
+						emptyColor='gray.200'
+						color='cyan.500'
+						size='xl'
+					/>
 				</Stack>
 			) : error ? (
 				<Alert status='error'>
@@ -80,16 +86,32 @@ const ProductScreen = () => {
 						maxW={{ base: '3xl', lg: '5xl' }}
 						mx='auto'
 						px={{ base: '4', md: '8', lg: '12' }}
-						py={{ base: '6', md: '8', lg: '12' }}>
+						py={{ base: '6', md: '8', lg: '12' }}
+					>
 						<Stack direction={{ base: 'column', lg: 'row' }} align='flex-start'>
-							<Stack pr={{ base: '0', md: 'row' }} flex='1.5' mb={{ base: '12', md: 'none' }}>
+							<Stack
+								pr={{ base: '0', md: 'row' }}
+								flex='1.5'
+								mb={{ base: '12', md: 'none' }}
+							>
 								{product.productIsNew && (
-									<Badge p='2' rounded='md' w='50px' fontSize='0.8em' colorScheme='green'>
+									<Badge
+										p='2'
+										rounded='md'
+										w='50px'
+										fontSize='0.8em'
+										colorScheme='green'
+									>
 										New
 									</Badge>
 								)}
 								{product.stock === 0 && (
-									<Badge rounded='full' w='70px' fontSize='0.8em' colorScheme='red'>
+									<Badge
+										rounded='full'
+										w='70px'
+										fontSize='0.8em'
+										colorScheme='red'
+									>
 										Sold out
 									</Badge>
 								)}
@@ -115,23 +137,41 @@ const ProductScreen = () => {
 									<Text>{product.subtitle}</Text>
 									<Text>{product.description}</Text>
 									<Text fontWeight='bold'>Quantity</Text>
-									<Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
-										<Button isDisabled={amount <= 1} onClick={() => changeAmount('minus')}>
+									<Flex
+										w='170px'
+										p='5px'
+										border='1px'
+										borderColor='gray.200'
+										alignItems='center'
+									>
+										<Button
+											isDisabled={amount <= 1}
+											onClick={() => changeAmount('minus')}
+										>
 											<MinusIcon />
 										</Button>
 										<Text mx='30px'>{amount}</Text>
-										<Button isDisabled={amount >= product.stock} onClick={() => changeAmount('plus')}>
+										<Button
+											isDisabled={amount >= product.stock}
+											onClick={() => changeAmount('plus')}
+										>
 											<SmallAddIcon />
 										</Button>
 									</Flex>
-									<Badge fontSize='lg' width='170px' textAlign='center' colorScheme='gray'>
+									<Badge
+										fontSize='lg'
+										width='170px'
+										textAlign='center'
+										colorScheme='gray'
+									>
 										In Stock: {product.stock}
 									</Badge>
 									<Button
-										varient='outline'
+										variant='outline'
 										isDisabled={product.stock === 0}
 										colorScheme='cyan'
-										onClick={() => addItem()}>
+										onClick={() => addItem()}
+									>
 										Add cart
 									</Button>
 									<Stack width='270px'>
@@ -156,7 +196,12 @@ const ProductScreen = () => {
 									</Stack>
 								</Stack>
 							</Stack>
-							<Flex direction='column' align='center' flex='1' _dark={{ bg: 'gray.900' }}>
+							<Flex
+								direction='column'
+								align='center'
+								flex='1'
+								_dark={{ bg: 'gray.900' }}
+							>
 								<Image
 									mb='30px'
 									src={product.images[0]}
@@ -176,7 +221,7 @@ const ProductScreen = () => {
 								Reviews
 							</Text>
 							<SimpleGrid minChildWidth='250px' spacingX='40px' spacingY='20px'>
-								{product.reviews.map((review) => (
+								{product.reviews.map(review => (
 									<Box key={review._id}>
 										<Flex spacing='2px' alignItems='center'>
 											<Star color='cyan.500' />
@@ -190,7 +235,8 @@ const ProductScreen = () => {
 										</Flex>
 										<Box py='12px'>{review.comment}</Box>
 										<Text fontSize='sm' color='gray.400'>
-											by {review.name}, {new Date(review.createdAt).toLocaleDateString()}
+											by {review.name},{' '}
+											{new Date(review.createdAt).toLocaleDateString()}
 										</Text>
 									</Box>
 								))}
@@ -200,7 +246,7 @@ const ProductScreen = () => {
 				)
 			)}
 		</Wrap>
-	);
-};
+	)
+}
 
-export default ProductScreen;
+export default ProductScreen

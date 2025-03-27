@@ -1,43 +1,55 @@
-import React, { useState } from 'react';
-import { Box, Image, Text, Badge, Flex, Skeleton, IconButton, useToast, Tooltip } from '@chakra-ui/react';
-import { BiExpand } from 'react-icons/bi';
-import { addToFavorites, removeFromFavorites } from '../redux/actions/productActions';
-import { useSelector, useDispatch } from 'react-redux';
-import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md';
-import { Link as ReactLink } from 'react-router-dom';
-import { addCartItem } from '../redux/actions/cartActions';
-import { useEffect } from 'react';
-import { TbShoppingCartPlus } from 'react-icons/tb';
+import {
+	Badge,
+	Box,
+	Flex,
+	IconButton,
+	Image,
+	Skeleton,
+	Text,
+	Tooltip,
+	useToast,
+} from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { BiExpand } from 'react-icons/bi'
+import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
+import { TbShoppingCartPlus } from 'react-icons/tb'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as ReactLink } from 'react-router-dom'
+import { addCartItem } from '../redux/actions/cartActions'
+import {
+	addToFavorites,
+	removeFromFavorites,
+} from '../redux/actions/productActions'
 
 const ProductCard = ({ product, loading }) => {
-	const dispatch = useDispatch();
-	const { favorites } = useSelector((state) => state.product);
-	const [isShown, setIsShown] = useState(false);
-	const { cartItems } = useSelector((state) => state.cart);
-	const toast = useToast();
-	const [cartPlusDisabled, setCartPlusDisabled] = useState(false);
+	const dispatch = useDispatch()
+	const { favorites } = useSelector(state => state.product)
+	const [isShown, setIsShown] = useState(false)
+	const { cartItems } = useSelector(state => state.cart)
+	const toast = useToast()
+	const [cartPlusDisabled, setCartPlusDisabled] = useState(false)
 
 	useEffect(() => {
-		const item = cartItems.find((cartItem) => cartItem.id === product._id);
+		const item = cartItems.find(cartItem => cartItem.id === product._id)
 		if (item && item.qty === product.stock) {
-			setCartPlusDisabled(true);
+			setCartPlusDisabled(true)
 		}
-	}, [product, cartItems]);
+	}, [product, cartItems])
 
-	const addItem = (id) => {
-		if (cartItems.some((cartItem) => cartItem.id === id)) {
-			const item = cartItems.find((cartItem) => cartItem.id === id);
-			dispatch(addCartItem(id, item.qty + 1));
+	const addItem = id => {
+		if (cartItems.some(cartItem => cartItem.id === id)) {
+			const item = cartItems.find(cartItem => cartItem.id === id)
+			dispatch(addCartItem(id, item.qty + 1))
 		} else {
-			dispatch(addCartItem(id, 1));
+			dispatch(addCartItem(id, 1))
 		}
 
 		toast({
 			description: 'Item added to cart',
 			status: 'success',
 			isClosable: true,
-		});
-	};
+		})
+	}
 
 	return (
 		<Skeleton isLoaded={!loading}>
@@ -46,7 +58,8 @@ const ProductCard = ({ product, loading }) => {
 				borderWidth='1px'
 				overflow='hidden'
 				p='4'
-				shadow='md'>
+				shadow='md'
+			>
 				<Image
 					onMouseEnter={() => setIsShown(true)}
 					onMouseLeave={() => setIsShown(false)}
@@ -85,11 +98,17 @@ const ProductCard = ({ product, loading }) => {
 							size='sm'
 							bg='cyan.600'
 							color='black'
-							onClick={() => dispatch(removeFromFavorites(product._id))}>
+							onClick={() => dispatch(removeFromFavorites(product._id))}
+						>
 							<MdOutlineFavorite />
 						</IconButton>
 					) : (
-						<IconButton size='sm' bg='cyan.600' color='black' onClick={() => dispatch(addToFavorites(product._id))}>
+						<IconButton
+							size='sm'
+							bg='cyan.600'
+							color='black'
+							onClick={() => dispatch(addToFavorites(product._id))}
+						>
 							<MdOutlineFavoriteBorder />
 						</IconButton>
 					)}
@@ -108,11 +127,12 @@ const ProductCard = ({ product, loading }) => {
 						hasArrow
 						label={
 							!cartPlusDisabled
-								? 'You reachsd the maximum quantity of the product'
+								? 'You reached the maximum quantity of the product'
 								: product.stock <= 0
 								? 'Product is out of stock'
 								: ''
-						}>
+						}
+					>
 						<IconButton
 							isDisabled={product.stock <= 0 || cartPlusDisabled}
 							onClick={() => addItem(product._id)}
@@ -124,7 +144,7 @@ const ProductCard = ({ product, loading }) => {
 				</Flex>
 			</Box>
 		</Skeleton>
-	);
-};
+	)
+}
 
-export default ProductCard;
+export default ProductCard

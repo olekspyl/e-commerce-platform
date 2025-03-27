@@ -1,19 +1,19 @@
 import {
+	Box,
 	Button,
 	ButtonGroup,
 	Container,
 	Divider,
+	Flex,
+	Icon,
 	IconButton,
 	Input,
 	Stack,
 	Text,
 	useColorModeValue as mode,
-	Box,
-	Flex,
-	Icon,
-} from '@chakra-ui/react';
-import { FaGithub, FaLinkedin, FaFacebook } from 'react-icons/fa';
-import { BsPhoneFlip } from 'react-icons/bs';
+} from '@chakra-ui/react'
+import { BsPhoneFlip } from 'react-icons/bs'
+import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa'
 
 const Footer = () => (
 	<Box w='100%' bg={mode('cyan.300', 'gray.900')}>
@@ -22,17 +22,26 @@ const Footer = () => (
 				spacing='8'
 				direction={{ base: 'column', md: 'row' }}
 				justify='space-between'
-				py={{ base: '12', md: '16' }}>
+				py={{ base: '12', md: '16' }}
+			>
 				<Stack spacing={{ base: '6', md: '8' }} align='start'>
 					<Flex alignItems='center'>
-						<Icon icon={BsPhoneFlip} h='10' w='10' color={mode('black', 'yellow.200')} />
+						<Icon
+							icon={BsPhoneFlip}
+							h='10'
+							w='10'
+							color={mode('black', 'yellow.200')}
+						/>
 						<Text fontSize='2xl' fontWeight='extrabold'>
 							Tech Lines
 						</Text>
 					</Flex>
 					<Text color='muted'>We love phones</Text>
 				</Stack>
-				<Stack direction={{ base: 'column-reverse', md: 'column', lg: 'row' }} spacing={{ base: '12', md: '8' }}>
+				<Stack
+					direction={{ base: 'column-reverse', md: 'column', lg: 'row' }}
+					spacing={{ base: '12', md: '8' }}
+				>
 					<Stack direction='row' spacing='8'>
 						<Stack spacing='4' minW='36' flex='1'>
 							<Text fontSize='sm' fontWeight='semibold' color='subtle'>
@@ -58,7 +67,11 @@ const Footer = () => (
 						<Text fontSize='sm' fontWeight='semibold' color='subtle'>
 							Stay up to date
 						</Text>
-						<Stack spacing='4' direction={{ base: 'column', sm: 'row' }} maxW={{ lg: '360px' }}>
+						<Stack
+							spacing='4'
+							direction={{ base: 'column', sm: 'row' }}
+							maxW={{ lg: '360px' }}
+						>
 							<Input placeholder='Enter your email' type='email' required />
 							<Button variant='primary' type='submit' flexShrink='0'>
 								Subscribe
@@ -68,9 +81,16 @@ const Footer = () => (
 				</Stack>
 			</Stack>
 			<Divider />
-			<Stack pt='8' pb='12' justify='space-between' direction={{ base: 'column-reverse', md: 'row' }} align='center'>
+			<Stack
+				pt='8'
+				pb='12'
+				justify='space-between'
+				direction={{ base: 'column-reverse', md: 'row' }}
+				align='center'
+			>
 				<Text fontSize='sm' color='subtle'>
-					&copy; {new Date().getFullYear()} Tech Lines, Inc. All rights reserved.
+					&copy; {new Date().getFullYear()} Tech Lines, Inc. All rights
+					reserved.
 				</Text>
 			</Stack>
 			<ButtonGroup variant='ghost'>
@@ -80,6 +100,6 @@ const Footer = () => (
 			</ButtonGroup>
 		</Container>
 	</Box>
-);
+)
 
-export default Footer;
+export default Footer
