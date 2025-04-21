@@ -19,11 +19,8 @@ const PasswordForgottenForm = () => {
             <Stack>
                 <Input mb='4' type='text' name='email' placeholder='label' value={email} onChange={(e) => handleChange(e)}  />
                 <Button colorScheme='yellow' size='lg' fontSize='md' onClick={() => dispatch(sendResetEmail(email))}>Send Reset Email</Button>
-                <Button colorScheme='yellow' size='lg' fontSize='md' onClick={() => dispatch(sendResetEmail(email))}>Send Reset Email</Button>
-
             </Stack>
         </>
     )
 }
-
 export default PasswordForgottenForm
