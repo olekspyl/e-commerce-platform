@@ -13,7 +13,7 @@ export const sendVerificationEmail = (token, email, name) => {
     </html>
     `;
 
-	const transportert = nodemailer.createTransport({
+	const transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
 			user: 'lemocream@gmail.com',
@@ -28,7 +28,7 @@ export const sendVerificationEmail = (token, email, name) => {
 		html: html,
 	};
 
-	transportert.sendMail(mailOptions, (error, info) => {
+	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log(error);
 		} else {

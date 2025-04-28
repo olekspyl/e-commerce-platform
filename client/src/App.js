@@ -3,6 +3,7 @@ import LandingScreen from './screens/LandingScreen'
 import LoginScreen from './screens/LoginScreen'
 import ProductScreen from './screens/ProductScreen'
 import ProductsScreen from './screens/ProductsScreen'
+import EmailVerificationScreen from './screens/EmailVerificationScreen'
 
 import { ChakraProvider } from '@chakra-ui/react'
 
@@ -23,6 +24,7 @@ function App() {
 							<Route path='/product/:id' element={<ProductScreen />} />
 							<Route path='/cart' element={<CartScreen />} />
 							<Route path='/login' element={<LoginScreen />} />
+							<Route path='/email-verify/:token' element={<EmailVerificationScreen />} />
 						</Routes>
 					</main>
 					<Footer />
