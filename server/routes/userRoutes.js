@@ -78,6 +78,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //verifyEmail
 const verifyEmail = asyncHandler(async (req, res) => {
 	const token = req.headers.authorization.split(' ')[1];
+	console.log(token);
 	try {
 		const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 		const user = await User.findById(decoded.id);
@@ -122,7 +123,7 @@ const passwordReset = asyncHandler(async (req, res) => {
 			res.status(404).send('User not found');
 		}
 	} catch {
-		res.status(401).send('Password resset failed');
+		res.status(401).send('Password reset failed');
 	}
 });
 
