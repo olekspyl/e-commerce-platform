@@ -3,13 +3,13 @@ import User from '../models/User.js';
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import { sendVerificationEmail } from '../middleware/sendVerificationEmail.js';
-
+import { sendPasswordResetEmail } from '../middleware/sendPasswordResetEmail.js';
 const userRoutes = express.Router();
 
 //TODO: redefine expires
 const genToken = (id) => {
 	return jwt.sign({ id }, process.env.TOKEN_SECRET, {
-		expiresIn: '60d',
+		expiresIn: '360d',
 	});
 };
 
@@ -99,10 +99,9 @@ const passwordResetRequest = asyncHandler(async (req, res) => {
 	const { email } = req.body;
 	try {
 		const user = await User.findOne({ email: email });
-
 		if (user) {
 			const newToken = genToken(user._id);
-			sendPasswordResetEmail(newToken, user.email, user.name);
+			sendPasswordResetEmail(newToken, user.email, user.name)
 			res.status(200).send(`We have send you a recover email to ${email}`);
 		}
 	} catch (error) {

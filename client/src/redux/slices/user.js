@@ -36,9 +36,11 @@ export const userSlice = createSlice({
 		},
 		setServerResponseMsg: (state, { payload }) => {
 			state.serverMsg = payload
+						state.loading = false
 		},
 		setServerResponseStatus: (state, { payload }) => {
 			state.serverStatus = payload
+			state.loading = false
 		},
 		stateReset(state) {
 			state.loading = false

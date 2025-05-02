@@ -4,6 +4,7 @@ import LoginScreen from './screens/LoginScreen'
 import ProductScreen from './screens/ProductScreen'
 import ProductsScreen from './screens/ProductsScreen'
 import EmailVerificationScreen from './screens/EmailVerificationScreen'
+import PasswordResetScreen from './screens/PasswordResetScreen'
 
 import { ChakraProvider } from '@chakra-ui/react'
 
@@ -25,6 +26,7 @@ function App() {
 							<Route path='/cart' element={<CartScreen />} />
 							<Route path='/login' element={<LoginScreen />} />
 							<Route path='/email-verify/:token' element={<EmailVerificationScreen />} />
+							<Route path='/password-reset/:token' element={<PasswordResetScreen />} />
 						</Routes>
 					</main>
 					<Footer />

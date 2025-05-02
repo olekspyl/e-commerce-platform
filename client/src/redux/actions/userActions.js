@@ -87,7 +87,8 @@ export const verifyEmail = token => async dispatch => {
 
 		dispatch(verificationEmail())
 		const userInfo = localStorage.getItem('userInfo')
-		userInfo.active = true
+		const userInfoParsed = JSON.parse(userInfo)
+		userInfoParsed.active = true
 		localStorage.setItem('userInfo', JSON.stringify(userInfo))
 	} catch (error) {
 		dispatch(
