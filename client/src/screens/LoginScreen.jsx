@@ -16,7 +16,7 @@ const LoginScreen = () => {
 	const redirect = '/products';
 	const toast = useToast();
 	
-	const { loading, error, userInfo, message } = useSelector((state) => state.user);
+	const { loading, error, userInfo, serverMsg } = useSelector((state) => state.user);
 	const [showPasswordReset, setShowPasswordReset] = useState(false);
 	
 	useEffect(() => {
@@ -32,14 +32,14 @@ const LoginScreen = () => {
 			isClosable: true,
 		});
 	}
-	if(message) {
+	if(serverMsg) {
 		toast({
-			description: message,
+			description: serverMsg,
 			status: 'success',
 			isClosable: true,
 		});
 	}
-	}, [userInfo, navigate, redirect, error, location.state, message, showPasswordReset, toast]);
+	}, [userInfo, navigate, redirect, error, location.state, serverMsg, showPasswordReset, toast]);
 	
 	
 	return (
