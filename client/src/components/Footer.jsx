@@ -27,7 +27,7 @@ const Footer = () => (
 				<Stack spacing={{ base: '6', md: '8' }} align='start'>
 					<Flex alignItems='center'>
 						<Icon
-							icon={BsPhoneFlip}
+							as={BsPhoneFlip}
 							h='10'
 							w='10'
 							color={mode('black', 'yellow.200')}

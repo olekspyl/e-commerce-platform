@@ -19,6 +19,9 @@ app.use('/api/users', userRoutes);
 app.get('/', (req, res) => {
 	res.send('api is running ...');
 });
+app.get('/api/config/google', (req, res) => {
+	res.send(process.env.GOOGLE_CLIENT_ID || 'GOOGLE_CLIENT_ID');
+})
 
 const port = 5001;
 app.listen(port, () => {

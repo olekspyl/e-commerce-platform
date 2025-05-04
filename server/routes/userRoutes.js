@@ -61,7 +61,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			_id: user._id,
 			name: user.name,
 			email: user.email,
-			googleImage: user.image,
+			googleImage: user.googleImage,
 			googleId: user.googleId,
 			isAdmin: user.isAdmin,
 			token: newToken,
@@ -78,7 +78,6 @@ const registerUser = asyncHandler(async (req, res) => {
 //verifyEmail
 const verifyEmail = asyncHandler(async (req, res) => {
 	const token = req.headers.authorization.split(' ')[1];
-	console.log(token);
 	try {
 		const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 		const user = await User.findById(decoded.id);
@@ -126,10 +125,62 @@ const passwordReset = asyncHandler(async (req, res) => {
 	}
 });
 
+
+// googleLogin
+const googleLogin = asyncHandler(async(req, res) => {
+	const {googleId, email, name, googleImage} = req.body;
+	
+	try {
+		const user = await User.findOne({email: email});
+		if(user) {
+			user.firstLogin = false;
+			await user.save();
+			res.status(201).json({
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				googleImage: googleImage,
+				googleId: googleId,
+				isAdmin: user.isAdmin,
+				token: genToken(user._id),
+				active: user.active,
+				firstLogin: user.firstLogin,
+				createdAt: user.createdAt,
+			});
+		} else {
+			const newUser = await User.create({
+				name,
+				email,
+				googleId,
+				googleImage,
+			});
+			const newToken = genToken(newUser._id);
+			sendVerificationEmail(newToken, newUser.email, newUser.name, newUser._id);
+			
+			res.status(201).json({
+				_id: newUser._id,
+				name: newUser.name,
+				email: newUser.email,
+				googleImage: newUser.googleImage,
+				googleId: newUser.googleId,
+				isAdmin: newUser.isAdmin,
+				token: genToken(newUser._id),
+				active: newUser.active,
+				firstLogin: newUser.firstLogin,
+				createdAt: newUser.createdAt,
+			});
+		}
+	}
+	catch (error) {
+		res.status(404).send('Something went wrong');
+	}
+})
+
 userRoutes.route('/login').post(loginUser);
 userRoutes.route('/register').post(registerUser);
 userRoutes.route('/verify-email').get(verifyEmail);
 userRoutes.route('/password-reset-request').post(passwordResetRequest);
 userRoutes.route('/password-reset').post(passwordReset);
+userRoutes.route('/google-login').post(googleLogin);
 
 export default userRoutes;

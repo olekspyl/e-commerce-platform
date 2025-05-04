@@ -23,9 +23,11 @@ import {
 	useToast,
 	MenuDivider
 } from '@chakra-ui/react'
+import { googleLogout } from '@react-oauth/google'
 import React, { useEffect, useState } from 'react'
 import { BiUserCheck, BiLogInCircle } from 'react-icons/bi'
 import { BsPhoneFlip } from 'react-icons/bs'
+import { FcGoogle } from 'react-icons/fc'
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
 import { TbShoppingCart } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
@@ -60,6 +62,7 @@ const Header = () => {
 	}, [favoritesToggled, dispatch, userInfo])
 	
 	const logoutHandler = () => {
+		googleLogout()
 		dispatch(logout())
 		toast({
 			description: 'Logout successful',
@@ -85,7 +88,7 @@ const Header = () => {
 						as={ReactLink}
 						to='/cart'
 						variant='ghost'
-					/>
+					 />
 					{cartItems.length > 0 && (
 						<Text
 							fontWeight='bold'
@@ -163,7 +166,10 @@ const Header = () => {
 									cursor='pointer'
 								>
 									<HStack>
-										<BiUserCheck size='30'/>
+										{userInfo.googleImage ? (
+											<Image borderRadius='full' boxSize='40px' src={userInfo.googleImage} refferPolicy='no-referrer'/>
+										) : (<BiUserCheck size='30'/>
+											)}
 										<ChevronDownIcon />
 									</HStack>
 								</MenuButton>
@@ -172,6 +178,8 @@ const Header = () => {
 										<Text pl='3' as='i'>
 											{userInfo.email}
 										</Text>
+										{userInfo.googleId && <FcGoogle/>}
+										
 									</HStack>
 									<Divider py='1'/>
 									<MenuItem as={ReactLink} to='/order-history'>Order History</MenuItem>

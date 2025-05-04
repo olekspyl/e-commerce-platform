@@ -12,10 +12,35 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import axios from 'axios'
+import {VStack, Spinner} from '@chakra-ui/react'
+import {useEffect, useState} from 'react'
+import {GoogleOAuthProvider} from '@react-oauth/google'
+
+
 
 function App() {
-	return (
-		<ChakraProvider>
+	const [googleClient, setGoogleClient] = useState(null)
+	
+	useEffect(() => {
+		const googleKey = async () => {
+			const {data: googleId} = await axios.get('/api/config/google')
+			setGoogleClient(googleId)
+		}
+		googleKey()
+	}, [googleClient])
+	
+	return !googleClient ? (<VStack pt='37vh'>
+<Spinner
+						mt='20'
+						thickness='2px'
+						speed='0.65s'
+						emptyColor='gray.200'
+						color='cyan.500'
+						size='xl'
+					/>	</VStack>) : (
+						<GoogleOAuthProvider clientId={googleClient}>
+									<ChakraProvider>
 			<div>
 				<Router>
 					<Header />
@@ -35,6 +60,8 @@ function App() {
 				</Router>
 			</div>
 		</ChakraProvider>
+						</GoogleOAuthProvider>
+
 	)
 }
 

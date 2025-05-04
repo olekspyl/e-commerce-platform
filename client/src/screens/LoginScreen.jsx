@@ -7,7 +7,11 @@ import * as Yup from 'yup'
 import PasswordField from '../components/PasswordField'
 import PasswordForgottenForm from '../components/PasswordForgottenForm'
 import TextField from '../components/TextField'
-import {login} from '../redux/actions/userActions'
+import {login, googleLogin} from '../redux/actions/userActions'
+import {useGoogleLogin} from '@react-oauth/google'
+import axios from 'axios'
+import {FcGoogle} from 'react-icons/fc'
+
 
 const LoginScreen = () => {
 	const dispatch = useDispatch();
@@ -41,6 +45,15 @@ const LoginScreen = () => {
 	}
 	}, [userInfo, navigate, redirect, error, location.state, serverMsg, showPasswordReset, toast]);
 	
+	const handleGoogleLogin = useGoogleLogin({
+		onSuccess: async (response) => {
+			const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+				headers: {Authorization: `Bearer ${response.access_token}`},
+			}).then((res) => res.data);
+			const {sub, email, name, picture} = userInfo;
+			dispatch(googleLogin(sub, email, name, picture));
+		}
+	})
 	
 	return (
 		<Formik initialValues={{email: '', password: ''}}
@@ -79,6 +92,7 @@ const LoginScreen = () => {
 							</Stack>
 							<Stack spacing='6'>
 								<Button colorScheme='cyan' size='lg' fontSize='md' isLoading={loading} type='submit'>Sign in</Button>
+								<Button colorScheme='cyan' size='lg' fontSize='md' isLoading={loading} type='submit' leftIcon={<FcGoogle/>} onClick={() => handleGoogleLogin()}>Google sign in</Button>
 							</Stack>
 						</Stack>
 						</Box>

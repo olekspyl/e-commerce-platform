@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema(
 		active: { type: Boolean, default: false },
 		isAdmin: { type: Boolean, default: false },
 		firstLogin: { type: Boolean, default: true },
-		googleImage: { type: String, default: undefined },
-		googleId: { type: String, default: undefined },
+		googleImage: { type: String},
+		googleId: { type: String},
 	},
 	{ timestamps: true }
 );
