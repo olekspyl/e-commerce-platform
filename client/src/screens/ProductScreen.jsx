@@ -17,6 +17,9 @@ import {
 	Text,
 	Wrap,
 	useToast,
+	Textarea,
+	Input,
+	Tooltip
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { BiCheckShield, BiPackage, BiSupport } from 'react-icons/bi'
@@ -24,19 +27,34 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Star from '../components/Star'
 import { addCartItem } from '../redux/actions/cartActions'
-import { getProduct } from '../redux/actions/productActions'
+import { getProduct, createProductReview } from '../redux/actions/productActions'
 
 const ProductScreen = () => {
 	const [amount, setAmount] = useState(1)
 	const { id } = useParams()
 	const dispatch = useDispatch()
-	const { loading, error, product } = useSelector(state => state.product)
+	const { loading, error, product, reviewed } = useSelector(state => state.product)
 	const { cartItems } = useSelector(state => state.cart)
 	const toast = useToast()
+	const [comment, setComment] = useState('')
+	const [rating, setRating] = useState(1)
+	const [title, setTitle] = useState('')
+	const [reviewBoxOpen, setReviewBoxOpen] = useState(false)
+	const {userInfo} = useSelector(state => state.user)
+	const [buttonLoading, setButtonLoading] = useState(false)
 
 	useEffect(() => {
 		dispatch(getProduct(id))
-	}, [dispatch, id])
+		setReviewBoxOpen(false)
+		if(reviewed) {
+			toast({
+				description: 'Product review saved',
+				status: 'success',
+				isClosable: true,
+			})
+			setButtonLoading(false)
+		}
+	}, [dispatch, id, toast, reviewed])
 
 	const changeAmount = input => {
 		if (input === 'plus') {
@@ -61,6 +79,13 @@ const ProductScreen = () => {
 			isClosable: true,
 		})
 	}
+	
+	const hasUserReviewed = () => product.reviews.some(item => item.user === userInfo._id)
+	const onSubmit = () => {
+		setButtonLoading(true)
+		dispatch(createProductReview(product._id, userInfo._id, comment, rating, title))
+	}
+	
 	return (
 		<Wrap spacing='30px' justify='center' minHeight='100vh'>
 			{loading ? (
