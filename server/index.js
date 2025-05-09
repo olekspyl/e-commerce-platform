@@ -7,6 +7,7 @@ import cors from 'cors';
 //Routes
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import stripeRoute from './routes/stripeRoute.js'
 
 connectToDatabase();
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/stripe', stripeRoute);
 
 app.get('/', (req, res) => {
 	res.send('api is running ...');
