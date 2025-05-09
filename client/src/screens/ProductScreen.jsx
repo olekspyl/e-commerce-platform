@@ -241,6 +241,45 @@ const ProductScreen = () => {
 								/>
 							</Flex>
 						</Stack>
+						
+						{userInfo && (
+							<>
+								<Tooltip label={hasUserReviewed() && 'you have already reviewed this product'} fontSize='medium'>
+									<Button isDisabled={hasUserReviewed()} my='20px' w='140px' colorScheme='cyan' onClick={() => setReviewBoxOpen(!reviewBoxOpen)}>
+										Write a review
+									</Button>
+								</Tooltip>
+								{reviewBoxOpen && (
+									<Stack mb='20px'>
+										<Wrap>
+											<HStack spacing='2px'>
+												<Button variant='outline' onClick={() => setRating(1)}>
+													<Star />
+												</Button>
+												<Button variant='outline' onClick={() => setRating(2)}>
+													<Star rating={rating} star={2}/>
+												</Button>
+												<Button variant='outline' onClick={() => setRating(3)}>
+													<Star rating={rating} star={3}/>
+												</Button>
+												<Button variant='outline' onClick={() => setRating(4)}>
+													<Star rating={rating} star={4}/>
+												</Button>
+												<Button variant='outline' onClick={() => setRating(5)}>
+													<Star rating={rating} star={5}/>
+												</Button>
+											</HStack>
+										</Wrap>
+										<Input onChange={(e) => {setTitle(e.target.value)}} placeholder='Review title (optinal)'/>
+										<Textarea onChange={(e) => {
+											setComment(e.target.value)
+										}} placeholder={`The ${product.brand} ${product.name} is ...`}/>
+										<Button isLoading={buttonLoading} loadingText='Saving' w='140px' colorScheme='cyan' onClick={() => onSubmit()}>Publish review</Button>
+									</Stack>
+								)}
+							</>
+						)}
+						
 						<Stack>
 							<Text fontSize='xl' fontEight='bold'>
 								Reviews
