@@ -167,7 +167,7 @@ const Header = () => {
 								>
 									<HStack>
 										{userInfo.googleImage ? (
-											<Image borderRadius='full' boxSize='40px' src={userInfo.googleImage} refferPolicy='no-referrer'/>
+											<Image borderRadius='full' boxSize='40px' src={userInfo.googleImage} refferpolicy='no-referrer'/>
 										) : (<BiUserCheck size='30'/>
 											)}
 										<ChevronDownIcon />

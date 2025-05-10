@@ -3,7 +3,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
 
-const OrderSummary = () => {
+const OrderSummary = ({checkoutScreen = false}) => {
 	const { subtotal, shipping } = useSelector((state) => state.cart);
 
 	return (
@@ -15,6 +15,7 @@ const OrderSummary = () => {
 			rounded='lg'
 			padding='8'
 			w='full'>
+			<Heading size='md'>Order Summary</Heading>
 			<Stack spacing='6'>
 				<Flex justify='space-between'>
 					<Text fontWeight='medium' color={mode('gray.600', 'gray.400')}>
@@ -29,13 +30,13 @@ const OrderSummary = () => {
 					<Text fontWeight='medium'> ${shipping}</Text>
 				</Flex>
 				<Flex justify='space-between'>
-					<Text fontsize='xl' fontWeight='extrabold'>
+					<Text fontSize='xl' fontWeight='extrabold'>
 						Total
 					</Text>
 					<Text fontWeight='medium'> ${Number(subtotal) + Number(shipping)}</Text>
 				</Flex>
 			</Stack>
-			<Button as={ReactLink} to='/checkout' colorScheme='cyan' size='lg' rightIcon={<FaArrowRight />}>
+			<Button hidden={checkoutScreen} as={ReactLink} to='/checkout' colorScheme='cyan' size='lg' rightIcon={<FaArrowRight />}>
 				Checkout
 			</Button>
 		</Stack>

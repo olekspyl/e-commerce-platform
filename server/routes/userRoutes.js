@@ -1,10 +1,12 @@
 import express from 'express';
 import { protectRoute } from '../middleware/authMiddleware.js'
 import User from '../models/User.js';
+import Order from '../models/Order.js'
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import { sendVerificationEmail } from '../middleware/sendVerificationEmail.js';
 import { sendPasswordResetEmail } from '../middleware/sendPasswordResetEmail.js';
+
 const userRoutes = express.Router();
 
 //TODO: redefine expires
@@ -167,11 +169,22 @@ const googleLogin = asyncHandler(async(req, res) => {
 	}
 })
 
+const getUserOrders = asyncHandler(async (req, res) => {
+	const orders = await Order.find({ user: req.params.id });
+	if (orders) {
+		res.json(orders);
+	} else {
+		res.status(404)
+		throw new Error('Orders not found');
+	}
+})
+
 userRoutes.route('/login').post(loginUser);
 userRoutes.route('/register').post(registerUser);
 userRoutes.route('/verify-email').get(protectRoute, verifyEmail);
 userRoutes.route('/password-reset-request').post(passwordResetRequest);
 userRoutes.route('/password-reset').post(passwordReset);
 userRoutes.route('/google-login').post(googleLogin);
+userRoutes.route('/:id').get(protectRoute, getUserOrders);
 
 export default userRoutes;

@@ -9,6 +9,7 @@ import {
 	userLogin,
 	userLogout,
 	verificationEmail,
+	setUserOrders,
 } from '../slices/user'
 
 export const login = (email, password) => async dispatch => {
@@ -181,6 +182,35 @@ export const googleLogin = (googleId, email, name, googleImage) => async dispatc
 		)
 		dispatch(userLogin(data))
 		localStorage.setItem('userInfo', JSON.stringify(data))
+	} catch (error) {
+		dispatch(
+			setError(
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message
+					? error.message
+					: 'An error occurred'
+			)
+		)
+	}
+}
+
+export const getUserOrders = () => async (dispatch, getState) => {
+dispatch(setLoading(true))
+	
+	const { user: { userInfo } } = getState()
+	
+	try {
+	const config = {
+			headers: {
+				Authorization: `Bearer ${userInfo.token}`,
+				'Content-Type': 'application/json',
+			},
+		}
+		
+const { data } = await axios.get(`/api/users/${userInfo._id}`, config)
+		dispatch(setUserOrders(data))
+		
 	} catch (error) {
 		dispatch(
 			setError(
