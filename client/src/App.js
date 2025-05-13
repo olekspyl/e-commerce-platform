@@ -22,6 +22,9 @@ import {useEffect, useState} from 'react'
 import {GoogleOAuthProvider} from '@react-oauth/google'
 
 
+function AdminConsoleScreen() {
+	return null
+}
 
 function App() {
 	const [googleClient, setGoogleClient] = useState(null)
@@ -62,6 +65,7 @@ function App() {
 							<Route path='/cancel' element={<CancelScreen />} />
 							<Route path='/order-history' element={<YourOrdersScreen />} />
 							<Route path='/success' element={<SuccessScreen />} />
+							<Route path='/admin-console' element={<AdminConsoleScreen />} />
 						</Routes>
 					</main>
 					<Footer />

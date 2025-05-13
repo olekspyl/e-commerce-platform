@@ -7,6 +7,7 @@ import {
 	setFavoritesToggle,
 	setProduct,
 	productReviewed,
+	resetError
 	
 } from '../slices/product';
 import axios from 'axios';
@@ -107,4 +108,9 @@ export const createProductReview = (productId, userId, comment, rating, title) =
 			)
 		);
 	}
+}
+
+
+export const resetProductError = () => async (dispatch) => {
+	dispatch(resetError())
 }

@@ -8,6 +8,8 @@ import cors from 'cors';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import stripeRoute from './routes/stripeRoute.js'
+import orderRoutes from './routes/orderRoutes.js'
+
 
 connectToDatabase();
 const app = express();
@@ -17,6 +19,7 @@ app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/stripe', stripeRoute);
+app.use('/api/orders', orderRoutes);
 
 app.get('/', (req, res) => {
 	res.send('api is running ...');
