@@ -5,3 +5,5 @@ export const Star = ({ rating = 0, star = 0 }) => (
 );
 
 export default Star;
+
+

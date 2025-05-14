@@ -7,6 +7,7 @@ import YourOrdersScreen from './screens/YourOrdersScreen'
 import CheckoutScreen from './screens/CheckoutScreen'
 import SuccessScreen from './screens/SuccessScreen'
 import CancelScreen from './screens/CancelScreen'
+import AdminConsoleScreen from './screens/AdminConsoleScreen'
 import EmailVerificationScreen from './screens/EmailVerificationScreen'
 import PasswordResetScreen from './screens/PasswordResetScreen'
 import RegistrationScreen from './screens/RegistrationScreen'
@@ -20,11 +21,6 @@ import axios from 'axios'
 import {VStack, Spinner} from '@chakra-ui/react'
 import {useEffect, useState} from 'react'
 import {GoogleOAuthProvider} from '@react-oauth/google'
-
-
-function AdminConsoleScreen() {
-	return null
-}
 
 function App() {
 	const [googleClient, setGoogleClient] = useState(null)
