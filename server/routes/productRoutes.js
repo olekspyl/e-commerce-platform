@@ -153,8 +153,7 @@ const removeProductReview = asyncHandler(async (req, res) => {
 })
 
 const deleteProduct = asyncHandler(async (req, res) => {
-	const product = await Product.findByIdandDelete(req.params.id)
-	
+	const product = await Product.findByIdAndDelete(req.params.id)
 	if (product) {
 		res.json(product)
 	} else {
