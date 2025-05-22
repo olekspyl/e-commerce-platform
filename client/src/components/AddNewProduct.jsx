@@ -28,6 +28,8 @@ const AddNewProduct = () => {
 	const [description, setDescription] = useState('')
 	const [imageOne, setImageOne] = useState('')
 	const [imageTwo, setImageTwo] = useState('')
+	const [stripeId, setStripeId] = useState('')
+	const [subtitle, setSubtitle] = useState('')
 	
 	
 	const createNewProduct = () => {
@@ -37,6 +39,8 @@ const AddNewProduct = () => {
 			category,
 			stock,
 			price,
+			stripeId,
+			subtitle,
 			images: [`/images/${imageOne}`, `/images/${imageTwo}`],
 			productIsNew,
 			description
@@ -70,6 +74,15 @@ const AddNewProduct = () => {
 				<Text fontSize='sm'>Name</Text>
 				<Input size='sm' value={name} onChange={(e) => setName(e.target.value)}
 				       placeholder='Samsung S23' /> </Td>
+			<Td>
+				<Text fontSize='sm'>StripeId</Text>
+				<Input size='sm' value={stripeId}
+				       onChange={(e) => setStripeId(e.target.value)}
+				       placeholder='12345' />
+				<Text fontSize='sm'>Subtitle</Text>
+				<Input size='sm' value={subtitle}
+				       onChange={(e) => setSubtitle(e.target.value)}
+				       placeholder='good one' /> </Td>
 			<Td>
 				<Text fontSize='sm'>Category</Text>
 				<Input size='sm' value={category}

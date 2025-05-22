@@ -75,21 +75,31 @@ const createNewProduct = asyncHandler(async (req, res) => {
 		brand,
 		name,
 		category,
+		subtitle,
+		description,
+		stock,
+		price,
+		images,
+		productIsNew, stripeId
+	} = req.body
+	
+	const newProduct = await Product.create({
+		brand,
+		name,
+		category,
+		subtitle,
 		stock,
 		price,
 		images,
 		productIsNew,
-		description
-	} = req.body
-	
-	const newProduct = await Product.create({
-		brand, name, category, stock, price, images, productIsNew, description
+		description,
+		stripeId
 	})
 	
 	await newProduct.save()
 	const products = await Product.find({})
 	if (newProduct) {
-		res.json()
+		res.json(products)
 	} else {
 		res.status(404)
 		throw new Error('Product not created')
@@ -106,7 +116,9 @@ const updateProduct = asyncHandler(async (req, res) => {
 		price,
 		id,
 		productIsNew,
-		description
+		description,
+		subtitle,
+		stripeId
 	} = req.body
 	
 	const product = await Product.findById(id)
@@ -116,9 +128,11 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.price = price
 		product.description = description
 		product.brand = brand
+		product.subtitle = subtitle
 		product.category = category
 		product.stock = stock
 		product.productIsNew = productIsNew
+		product.stripeId = stripeId
 		
 		await product.save()
 		
@@ -169,7 +183,7 @@ productRoutes.route('/reviews/:id').post(protectRoute, createProductReview)
 productRoutes.route('/:id').delete(protectRoute, admin, deleteProduct)
 productRoutes.route('/:id').put(protectRoute, admin, updateProduct)
 productRoutes.route('/:productId/:reviewId').put(protectRoute, admin, removeProductReview)
-productRoutes.route('/:id').post(protectRoute, admin, createNewProduct)
+productRoutes.route('/').post(protectRoute, admin, createNewProduct)
 
 
 export default productRoutes

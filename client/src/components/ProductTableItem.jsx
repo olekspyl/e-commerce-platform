@@ -29,6 +29,9 @@ const ProductTableItem = ({ product }) => {
 	const [price, setPrice] = useState(product.price)
 	const [productIsNew, setProductIsNew] = useState(product.productIsNew)
 	const [description, setDescription] = useState(product.description)
+	const [subtitle, setSubtitle] = useState(product.subtitle)
+	const [stripeId, setStripeId] = useState(product.stripeId)
+	
 	const dispatch = useDispatch()
 	
 	const onSaveProduct = () => {
@@ -40,7 +43,9 @@ const ProductTableItem = ({ product }) => {
 			price,
 			product._id,
 			productIsNew,
-			description
+			description,
+			subtitle,
+			stripeId
 		))
 		
 	}
@@ -62,6 +67,14 @@ const ProductTableItem = ({ product }) => {
 						       onChange={(e) => setBrand(e.target.value)} />
 						<Input sixe='sm' value={name}
 						       onChange={(e) => setName(e.target.value)} />
+					</Flex>
+				</Td>
+				<Td>
+					<Flex direction='column' gap='2'>
+						<Input sixe='sm' value={stripeId}
+						       onChange={(e) => setStripeId(e.target.value)} />
+						<Input sixe='sm' value={subtitle}
+						       onChange={(e) => setSubtitle(e.target.value)} />
 					</Flex>
 				</Td>
 				<Td>

@@ -22,6 +22,7 @@ import {
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProducts, resetProductError } from '../redux/actions/productActions'
+import AddNewProduct from './AddNewProduct'
 import ProductTableItem from './ProductTableItem'
 
 
@@ -36,7 +37,7 @@ const ProductsTab = () => {
 		dispatch(resetProductError())
 		if (productUpdate) {
 			toast({
-				description: 'Product has been removed.',
+				description: 'Product has been updated.',
 				status: 'success',
 				isClosable: true
 			})
@@ -76,7 +77,7 @@ const ProductsTab = () => {
 							<AccordionPanel>
 								<Table>
 									<Tbody>
-										Add new Product component ...
+										<AddNewProduct />
 									</Tbody>
 								</Table>
 							</AccordionPanel>
@@ -87,6 +88,7 @@ const ProductsTab = () => {
 							<Tr>
 								<Th>Description</Th>
 								<Th>Brand & Name</Th>
+								<Th>StripeId & Subtitle</Th>
 								<Th>Category & Price</Th>
 								<Th>Stock & new Badge</Th>
 							</Tr>

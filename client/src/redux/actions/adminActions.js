@@ -153,7 +153,7 @@ export const resetErrorAndRemoval = () => async (dispatch) => {
 	dispatch(resetError())
 }
 
-export const updateProduct = (brand, name, category, stock, price, id, productIsNew, description) => async (dispatch, getState) => {
+export const updateProduct = (brand, name, category, stock, price, id, productIsNew, description, subtitle, stripeId) => async (dispatch, getState) => {
 	setLoading()
 	const { user: { userInfo } } = getState()
 	const config = {
@@ -171,7 +171,9 @@ export const updateProduct = (brand, name, category, stock, price, id, productIs
 			price,
 			id,
 			productIsNew,
-			description
+			description,
+			subtitle,
+			stripeId
 		}, config)
 		dispatch(setProducts(data))
 		dispatch(setProductUpdateFlag())
