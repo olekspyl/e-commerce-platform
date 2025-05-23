@@ -1,28 +1,29 @@
-import express from 'express';
+import express from 'express'
+import asyncHandler from 'express-async-handler'
+import jwt from 'jsonwebtoken'
 import { admin, protectRoute } from '../middleware/authMiddleware.js'
-import User from '../models/User.js';
+import { sendPasswordResetEmail } from '../middleware/sendPasswordResetEmail.js'
+import { sendVerificationEmail } from '../middleware/sendVerificationEmail.js'
 import Order from '../models/Order.js'
-import asyncHandler from 'express-async-handler';
-import jwt from 'jsonwebtoken';
-import { sendVerificationEmail } from '../middleware/sendVerificationEmail.js';
-import { sendPasswordResetEmail } from '../middleware/sendPasswordResetEmail.js';
+import User from '../models/User.js'
 
-const userRoutes = express.Router();
+const userRoutes = express.Router()
 
 //TODO: redefine expires
 const genToken = (id) => {
 	return jwt.sign({ id }, process.env.TOKEN_SECRET, {
-		expiresIn: '360d',
-	});
-};
+		expiresIn: '1d'
+	})
+}
 
 //login
 const loginUser = asyncHandler(async (req, res) => {
-	const { email, password } = req.body;
-	const user = await User.findOne({ email });
-	if (user && (await user.matchPassword(password))) {
-		user.firstLogin = false;
-		await user.save();
+	const { email, password } = req.body
+	const user = await User.findOne({ email })
+	if (user && (
+		await user.matchPassword(password))) {
+		user.firstLogin = false
+		await user.save()
 		res.json({
 			_id: user._id,
 			name: user.name,
@@ -33,32 +34,32 @@ const loginUser = asyncHandler(async (req, res) => {
 			token: genToken(user._id),
 			active: user.active,
 			firstLogin: user.firstLogin,
-			createdAt: user.createdAt,
-		});
+			createdAt: user.createdAt
+		})
 	} else {
-		res.status(401).send('Invalid email or password');
-		throw new Error('Invalid email or password');
+		res.status(401).send('Invalid email or password')
+		throw new Error('Invalid email or password')
 	}
-});
+})
 
 //register
 const registerUser = asyncHandler(async (req, res) => {
-	const { name, email, password } = req.body;
-	const userExists = await User.findOne({ email });
+	const { name, email, password } = req.body
+	const userExists = await User.findOne({ email })
 	if (userExists) {
-		res.status(400).send('User already exists');
+		res.status(400).send('User already exists')
 	}
-
+	
 	const user = await User.create({
 		name,
 		email,
-		password,
-	});
-
-	const newToken = genToken(user._id);
-
-	sendVerificationEmail(newToken, email, name);
-
+		password
+	})
+	
+	const newToken = genToken(user._id)
+	
+	sendVerificationEmail(newToken, email, name)
+	
 	if (user) {
 		res.status(201).json({
 			_id: user._id,
@@ -70,64 +71,66 @@ const registerUser = asyncHandler(async (req, res) => {
 			token: newToken,
 			active: user.active,
 			firstLogin: user.firstLogin,
-			createdAt: user.createdAt,
-		});
+			createdAt: user.createdAt
+		})
 	} else {
-		res.status(400).send('We could not register you');
-		throw new Error('Something went wrong');
+		res.status(400).send('We could not register you')
+		throw new Error('Something went wrong')
 	}
-});
+})
 
 //verifyEmail
 const verifyEmail = asyncHandler(async (req, res) => {
 	const user = req.user
-			user.active = true;
-			await user.save();
-			res.status(200).send('Thanks for activating your account');
-});
+	user.active = true
+	await user.save()
+	res.status(200).send('Thanks for activating your account')
+})
 
 //passwordReset request
 const passwordResetRequest = asyncHandler(async (req, res) => {
-	const { email } = req.body;
+	const { email } = req.body
 	try {
-		const user = await User.findOne({ email: email });
+		const user = await User.findOne({ email: email })
 		if (user) {
-			const newToken = genToken(user._id);
+			const newToken = genToken(user._id)
 			sendPasswordResetEmail(newToken, user.email, user.name)
-			res.status(200).send(`We have send you a recover email to ${email}`);
+			res.status(200).send(`We have send you a recover email to ${email}`)
 		}
-	} catch (error) {
-		res.status(401).send('There is not account with such an email address');
 	}
-});
+	catch (error) {
+		res.status(401).send('There is not account with such an email address')
+	}
+})
 //passwordReset set
 const passwordReset = asyncHandler(async (req, res) => {
-	const token = req.headers.authorization.split(' ')[1];
+	const token = req.headers.authorization.split(' ')[1]
 	try {
-		const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-		const user = await User.findById(decoded.id);
+		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+		const user = await User.findById(decoded.id)
 		if (user) {
-			user.password = req.body.password;
-			await user.save();
-			res.status(200).json('Password has been updated successfully');
+			user.password = req.body.password
+			await user.save()
+			res.status(200).json('Password has been updated successfully')
 		} else {
-			res.status(404).send('User not found');
+			res.status(404).send('User not found')
 		}
-	} catch {
-		res.status(401).send('Password reset failed');
 	}
-});
+	catch {
+		res.status(401).send('Password reset failed')
+	}
+})
 
 
 // googleLogin
-const googleLogin = asyncHandler(async(req, res) => {
-	const {googleId, email, name, googleImage} = req.body;
+const googleLogin = asyncHandler(async (req, res) => {
+	const { googleId, email, name, googleImage } = req.body
 	
 	try {
-		const user = await User.findOne({email: email});
-		if(user) {
-			user.firstLogin = false;
-			await user.save();
+		const user = await User.findOne({ email: email })
+		if (user) {
+			user.firstLogin = false
+			await user.save()
 			res.status(201).json({
 				_id: user._id,
 				name: user.name,
@@ -138,17 +141,17 @@ const googleLogin = asyncHandler(async(req, res) => {
 				token: genToken(user._id),
 				active: user.active,
 				firstLogin: user.firstLogin,
-				createdAt: user.createdAt,
-			});
+				createdAt: user.createdAt
+			})
 		} else {
 			const newUser = await User.create({
 				name,
 				email,
 				googleId,
-				googleImage,
-			});
-			const newToken = genToken(newUser._id);
-			sendVerificationEmail(newToken, newUser.email, newUser.name, newUser._id);
+				googleImage
+			})
+			const newToken = genToken(newUser._id)
+			sendVerificationEmail(newToken, newUser.email, newUser.name, newUser._id)
 			
 			res.status(201).json({
 				_id: newUser._id,
@@ -160,22 +163,22 @@ const googleLogin = asyncHandler(async(req, res) => {
 				token: genToken(newUser._id),
 				active: newUser.active,
 				firstLogin: newUser.firstLogin,
-				createdAt: newUser.createdAt,
-			});
+				createdAt: newUser.createdAt
+			})
 		}
 	}
 	catch (error) {
-		res.status(404).send('Something went wrong');
+		res.status(404).send('Something went wrong')
 	}
 })
 
 const getUserOrders = asyncHandler(async (req, res) => {
-	const orders = await Order.find({ user: req.params.id });
+	const orders = await Order.find({ user: req.params.id })
 	if (orders) {
-		res.json(orders);
+		res.json(orders)
 	} else {
-		res.status(404)
-		throw new Error('Orders not found');
+		res.status(404).send('No orders found')
+		throw new Error('Orders not found')
 	}
 })
 
@@ -184,26 +187,26 @@ const getUsers = asyncHandler(async (req, res) => {
 	res.json(users)
 })
 
-const deleteUser = asyncHandler(async (req, res) =>{
+const deleteUser = asyncHandler(async (req, res) => {
 	try {
-		const user = await User.findByIdAndDelete(req.params.id);
-		res.json(user);
-	} catch (error) {
-		res.status(404)
-		throw new Error('User not found');
+		const user = await User.findByIdAndDelete(req.params.id)
+		res.json(user)
+	}
+	catch (error) {
+		res.status(404).send('User not found')
+		throw new Error('User not found')
 	}
 })
 
-userRoutes.route('/login').post(loginUser);
-userRoutes.route('/register').post(registerUser);
-userRoutes.route('/verify-email').get(protectRoute, verifyEmail);
-userRoutes.route('/password-reset-request').post(passwordResetRequest);
-userRoutes.route('/password-reset').post(protectRoute, passwordReset);
-userRoutes.route('/google-login').post(googleLogin);
-userRoutes.route('/:id').get(protectRoute, getUserOrders);
-userRoutes.route('/').get(protectRoute, admin, getUsers);
-userRoutes.route('/:id').delete(protectRoute, admin, deleteUser);
+userRoutes.route('/login').post(loginUser)
+userRoutes.route('/register').post(registerUser)
+userRoutes.route('/verify-email').get(protectRoute, verifyEmail)
+userRoutes.route('/password-reset-request').post(passwordResetRequest)
+userRoutes.route('/password-reset').post(protectRoute, passwordReset)
+userRoutes.route('/google-login').post(googleLogin)
+userRoutes.route('/:id').get(protectRoute, getUserOrders)
+userRoutes.route('/').get(protectRoute, admin, getUsers)
+userRoutes.route('/:id').delete(protectRoute, admin, deleteUser)
 
 
-
-export default userRoutes;
+export default userRoutes

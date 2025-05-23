@@ -31,6 +31,9 @@ const ProductTableItem = ({ product }) => {
 	const [description, setDescription] = useState(product.description)
 	const [subtitle, setSubtitle] = useState(product.subtitle)
 	const [stripeId, setStripeId] = useState(product.stripeId)
+	const [imageOne, setImageOne] = useState(product.images[0])
+	const [imageTwo, setImageTwo] = useState(product.images[1])
+	
 	
 	const dispatch = useDispatch()
 	
@@ -45,7 +48,9 @@ const ProductTableItem = ({ product }) => {
 			productIsNew,
 			description,
 			subtitle,
-			stripeId
+			stripeId,
+			imageOne,
+			imageTwo
 		))
 		
 	}
@@ -56,6 +61,14 @@ const ProductTableItem = ({ product }) => {
 	return (
 		<>
 			<Tr>
+				<Td>
+					<Flex direction='column' gap='2'>
+						<Input sixe='sm' value={imageOne}
+						       onChange={(e) => setImageOne(e.target.value)} />
+						<Input sixe='sm' value={imageTwo}
+						       onChange={(e) => setImageTwo(e.target.value)} />
+					</Flex>
+				</Td>
 				<Td>
 					<Textarea w='270px' h='120px' value={description}
 					          onChange={(e) => setDescription(e.target.value)}

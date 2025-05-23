@@ -33,7 +33,7 @@ const getProduct = async (req, res) => {
 	if (product) {
 		res.json(product)
 	} else {
-		res.status(404)
+		res.status(404).send('Product not found')
 		throw new Error('Product not found')
 	}
 }
@@ -47,7 +47,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 		const alreadyReviewed = product.reviews.find((review) => review.user.toString() === user._id.toString())
 		
 		if (alreadyReviewed) {
-			res.status(400)
+			res.status(400).send('Product already reviewed')
 			throw new Error('Product already reviewed')
 		}
 		
@@ -65,7 +65,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 		await product.save()
 		res.status(201).json({ message: 'Review has been saved' })
 	} else {
-		res.status(404)
+		res.status(404).send('Product not found')
 		throw new Error('Product not found')
 	}
 })
@@ -101,7 +101,7 @@ const createNewProduct = asyncHandler(async (req, res) => {
 	if (newProduct) {
 		res.json(products)
 	} else {
-		res.status(404)
+		res.status(404).send('Product not created')
 		throw new Error('Product not created')
 	}
 })
@@ -118,7 +118,9 @@ const updateProduct = asyncHandler(async (req, res) => {
 		productIsNew,
 		description,
 		subtitle,
-		stripeId
+		stripeId,
+		imageOne,
+		imageTwo
 	} = req.body
 	
 	const product = await Product.findById(id)
@@ -133,13 +135,14 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.stock = stock
 		product.productIsNew = productIsNew
 		product.stripeId = stripeId
+		product.images = [imageOne, imageTwo]
 		
 		await product.save()
 		
 		const products = await Product.find({})
 		res.json(products)
 	} else {
-		res.status(404)
+		res.status(404).send('Product not found')
 		throw new Error('Product not found')
 	}
 })
@@ -161,7 +164,7 @@ const removeProductReview = asyncHandler(async (req, res) => {
 		await product.save()
 		res.status(201).json({ message: 'Review hass been removed.' })
 	} else {
-		res.status(404)
+		res.status(404).send('Product not found')
 		throw new Error('Product not found')
 	}
 })
@@ -171,7 +174,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 	if (product) {
 		res.json(product)
 	} else {
-		res.status(404)
+		res.status(404).send('Product not found')
 		throw new Error('Product not found')
 	}
 })

@@ -1,7 +1,7 @@
-import express from 'express';
+import express from 'express'
 import asyncHandler from 'express-async-handler'
-import Order from '../models/Order.js'
 import { admin, protectRoute } from '../middleware/authMiddleware.js'
+import Order from '../models/Order.js'
 
 const orderRoutes = express.Router()
 
@@ -13,21 +13,22 @@ const getOrders = async (req, res) => {
 const deleteOrder = asyncHandler(async (req, res) => {
 	const order = await Order.findByIdAndDelete(req.params.id)
 	
-	if(order) {
+	if (order) {
 		res.json(order)
 	} else {
-		res.status(404)
+		res.status(404).send('Order not found')
 		throw new Error('Order not found')
 	}
 })
 
 const setDelivered = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.id)
-	if(order) {
-		order.isDelivered = true;
+	if (order) {
+		order.isDelivered = true
 		const updateOrder = await order.save()
 		res.json(updateOrder)
 	} else {
+		res.status(404).send('Order not found')
 		throw new Error('Order could not be updated')
 	}
 })
