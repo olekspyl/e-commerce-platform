@@ -1,12 +1,17 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
 	webpack: {
 		alias: {
-			'@': path.resolve(__dirname, 'src'),
-		},
+			'@': path.resolve(__dirname, 'src')
+		}
 	},
 	resolve: {
-		extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'], // Додаємо підтримку TS і JSX
+		extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'] // Додаємо підтримку TS і JSX
 	},
-};
+	babel: {
+		plugins: [
+			'@babel/plugin-proposal-private-property-in-object'
+		]
+	}
+}
