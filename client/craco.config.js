@@ -8,10 +8,5 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js', '.jsx', '.json'] // Додаємо підтримку TS і JSX
-	},
-	babel: {
-		plugins: [
-			'@babel/plugin-proposal-private-property-in-object'
-		]
 	}
 }
