@@ -45,7 +45,7 @@ function App() {
 			async () => {
 				await fetchGoogleKey()
 			})()
-	}, [googleClient])
+	}, [])
 	
 	return (
 		<ChakraProvider theme={theme}> {!googleClient ? (
