@@ -32,14 +32,19 @@ function App() {
 				})
 		}
 	})
+	
+	
 	const [googleClient, setGoogleClient] = useState(null)
 	
 	useEffect(() => {
-		const googleKey = async () => {
+		const fetchGoogleKey = async () => {
 			const { data: googleId } = await axios.get('/api/config/google')
 			setGoogleClient(googleId)
 		}
-		googleKey()
+		(
+			async () => {
+				await fetchGoogleKey()
+			})()
 	}, [googleClient])
 	
 	return (
