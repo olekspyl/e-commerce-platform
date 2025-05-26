@@ -5,11 +5,11 @@ import {
 	setLoading,
 	setServerResponseMsg,
 	setServerResponseStatus,
+	setUserOrders,
 	stateReset,
 	userLogin,
 	userLogout,
-	verificationEmail,
-	setUserOrders,
+	verificationEmail
 } from '../slices/user'
 
 export const login = (email, password) => async dispatch => {
@@ -17,8 +17,8 @@ export const login = (email, password) => async dispatch => {
 	try {
 		const config = {
 			headers: {
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		const { data } = await axios.post(
 			'/api/users/login',
@@ -27,14 +27,15 @@ export const login = (email, password) => async dispatch => {
 		)
 		dispatch(userLogin(data))
 		localStorage.setItem('userInfo', JSON.stringify(data))
-	} catch (error) {
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
@@ -52,24 +53,25 @@ export const register = (name, email, password) => async dispatch => {
 	try {
 		const config = {
 			headers: {
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		const { data } = await axios.post(
 			'/api/users/register',
-			{ name, email, password},
+			{ name, email, password },
 			config
 		)
 		dispatch(userLogin(data))
 		localStorage.setItem('userInfo', JSON.stringify(data))
-	} catch (error) {
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
@@ -81,23 +83,24 @@ export const verifyEmail = token => async dispatch => {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		await axios.get('/api/users/verify-email', config)
-
+		
 		dispatch(verificationEmail())
-		const parsed = JSON.parse(localStorage.getItem('userInfo'));
-parsed.active = true;
-localStorage.setItem('userInfo', JSON.stringify(parsed));
-	} catch (error) {
+		const parsed = JSON.parse(localStorage.getItem('userInfo'))
+		parsed.active = true
+		localStorage.setItem('userInfo', JSON.stringify(parsed))
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
@@ -108,25 +111,26 @@ export const sendResetEmail = email => async dispatch => {
 	try {
 		const config = {
 			headers: {
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		const { data, status } = await axios.post(
 			'/api/users/password-reset-request',
 			{ email },
 			config
 		)
-
+		
 		dispatch(setServerResponseMsg(data))
 		dispatch(setServerResponseStatus(status))
-	} catch (error) {
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
@@ -138,25 +142,26 @@ export const resetPassword = (password, token) => async dispatch => {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		const { data, status } = await axios.post(
 			'/api/users/password-reset',
 			{ password },
 			config
 		)
-
+		
 		dispatch(setServerResponseMsg(data, status))
 		dispatch(setServerResponseStatus(status))
-	} catch (error) {
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
@@ -171,8 +176,8 @@ export const googleLogin = (googleId, email, name, googleImage) => async dispatc
 	try {
 		const config = {
 			headers: {
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		
 		const { data } = await axios.post(
@@ -182,43 +187,45 @@ export const googleLogin = (googleId, email, name, googleImage) => async dispatc
 		)
 		dispatch(userLogin(data))
 		localStorage.setItem('userInfo', JSON.stringify(data))
-	} catch (error) {
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
 }
 
 export const getUserOrders = () => async (dispatch, getState) => {
-dispatch(setLoading(true))
+	dispatch(setLoading(true))
 	
 	const { user: { userInfo } } = getState()
 	
 	try {
-	const config = {
+		const config = {
 			headers: {
 				Authorization: `Bearer ${userInfo.token}`,
-				'Content-Type': 'application/json',
-			},
+				'Content-Type': 'application/json'
+			}
 		}
 		
-const { data } = await axios.get(`/api/users/${userInfo._id}`, config)
+		const { data } = await axios.get(`/api/users/${userInfo._id}`, config)
 		dispatch(setUserOrders(data))
 		
-	} catch (error) {
+	}
+	catch (error) {
 		dispatch(
 			setError(
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message
-					? error.message
-					: 'An error occurred'
+						? error.message
+						: 'An error occurred'
 			)
 		)
 	}
