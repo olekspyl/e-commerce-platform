@@ -35,6 +35,7 @@ app.get('/api/config/google', (req, res) => {
 const port = 5001
 
 const _dirname = path.resolve()
+
 app.use('/uploads', express.static(path.join(_dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
