@@ -25,14 +25,16 @@ app.use('/api/users', userRoutes)
 app.use('/api/stripe', stripeRoute)
 app.use('/api/orders', orderRoutes)
 
-app.get('/', (req, res) => {
-	res.send('api is running ...')
-})
 app.get('/api/config/google', (req, res) => {
 	res.send(process.env.GOOGLE_CLIENT_ID || 'GOOGLE_CLIENT_ID')
 })
 
-const port = 5001
+app.get('/', (req, res) => {
+	res.send('api is running ...')
+})
+
+
+const port = process.env.PORT || 5001
 
 const _dirname = path.resolve()
 
