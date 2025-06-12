@@ -37,15 +37,13 @@ function App() {
 	const [googleClient, setGoogleClient] = useState(null)
 	
 	useEffect(() => {
-		const fetchGoogleKey = async () => {
+		const googleKey = async () => {
 			const { data: googleId } = await axios.get('/api/config/google')
+			
 			setGoogleClient(googleId)
 		}
-		(
-			async () => {
-				await fetchGoogleKey()
-			})()
-	}, [])
+		googleKey()
+	}, [googleClient])
 	
 	return (
 		<ChakraProvider theme={theme}> {!googleClient ? (
@@ -59,7 +57,6 @@ function App() {
 					size='xl'
 				/> </VStack>) : (
 			<GoogleOAuthProvider clientId={googleClient}>
-				
 				<div>
 					<Router>
 						<Header />
