@@ -1,7 +1,8 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
-import path from 'path'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
 import connectToDatabase from './db.js'
 import orderRoutes from './routes/orderRoutes.js'
 
@@ -15,6 +16,9 @@ dotenv.config()
 
 connectToDatabase()
 const app = express()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 app.use(express.json())
 if (process.env.NODE_ENV !== 'production') {
 	app.use(cors())
