@@ -40,9 +40,9 @@ function App() {
 		const googleKey = async () => {
 			const { data: googleId } = await axios.get('/api/config/google')
 			
-			setGoogleClient(googleId)
+			await setGoogleClient(googleId)
 		}
-		googleKey()
+		googleKey().then(r => console.log('Google Client ID set'))
 	}, [googleClient])
 	
 	return (
