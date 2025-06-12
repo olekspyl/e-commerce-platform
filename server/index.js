@@ -30,7 +30,7 @@ app.use('/api/stripe', stripeRoute)
 app.use('/api/orders', orderRoutes)
 
 app.get('/api/config/google', (req, res) => {
-	res.send(process.env.GOOGLE_CLIENT_ID || 'GOOGLE_CLIENT_ID')
+	res.json({ googleClientId: process.env.GOOGLE_CLIENT_ID || 'GOOGLE_CLIENT_ID' })
 })
 
 const port = process.env.PORT || 5001

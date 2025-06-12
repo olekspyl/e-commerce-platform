@@ -39,8 +39,8 @@ function App() {
 	useEffect(() => {
 		const fetchGoogleId = async () => {
 			try {
-				const { data: googleId } = await axios.get('/api/config/google')
-				setGoogleClient(googleId)
+				const { data } = await axios.get('/api/config/google')
+				setGoogleClient(data.googleClientId)
 				console.log('Google Client ID set')
 			}
 			catch (error) {
