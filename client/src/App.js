@@ -37,13 +37,18 @@ function App() {
 	const [googleClient, setGoogleClient] = useState(null)
 	
 	useEffect(() => {
-		const googleKey = async () => {
-			const { data: googleId } = await axios.get('/api/config/google')
-			
-			await setGoogleClient(googleId)
+		const fetchGoogleId = async () => {
+			try {
+				const { data: googleId } = await axios.get('/api/config/google')
+				setGoogleClient(googleId)
+				console.log('Google Client ID set')
+			}
+			catch (error) {
+				console.error('Failed to fetch Google Client ID:', error)
+			}
 		}
-		googleKey().then(r => console.log('Google Client ID set'))
-	}, [googleClient])
+		fetchGoogleId()
+	}, [])
 	
 	return (
 		<ChakraProvider theme={theme}> {!googleClient ? (
