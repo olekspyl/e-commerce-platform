@@ -31,14 +31,13 @@ app.get('/api/config/google', (req, res) => {
 
 const port = process.env.PORT || 5001
 
-const _dirname = path.resolve()
-app.use('/uploads', express.static(path.join(_dirname, '/uploads')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(_dirname, '/client/build')))
+	app.use(express.static(path.join(__dirname, 'client', 'build')))
 	
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(_dirname, 'client', 'build', 'index.html'))
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 	})
 }
 
