@@ -36,3 +36,7 @@ This project is built using the following tools:
 - Password reset
 - Stripe Credit Card Payment Checkout
 
+
+#### to run in localhost
+add to client/package.json 	"proxy": "http://localhost:5001",
+
