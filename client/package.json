@@ -2,6 +2,8 @@
 	"name": "client",
 	"version": "0.1.0",
 	"private": true,
+	"homepage": "https://e-commerce-platform-bajt.onrender.com/",
+	"proxy": "http://localhost:5001",
 	"dependencies": {
 		"@chakra-ui/form-control": "^2.2.0",
 		"@chakra-ui/icons": "^2.2.4",

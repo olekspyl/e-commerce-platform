@@ -29,15 +29,9 @@ app.get('/api/config/google', (req, res) => {
 	res.send(process.env.GOOGLE_CLIENT_ID || 'GOOGLE_CLIENT_ID')
 })
 
-app.get('/', (req, res) => {
-	res.send('api is running ...')
-})
-
-
 const port = process.env.PORT || 5001
 
 const _dirname = path.resolve()
-
 app.use('/uploads', express.static(path.join(_dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
@@ -47,6 +41,11 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(_dirname, 'client', 'build', 'index.html'))
 	})
 }
+
+
+app.get('/', (req, res) => {
+	res.send('api is running ...')
+})
 
 
 app.listen(port, () => {
