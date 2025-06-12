@@ -36,19 +36,23 @@ function App() {
 	
 	const [googleClient, setGoogleClient] = useState(null)
 	
+	const FALLBACK_GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+	
 	useEffect(() => {
 		const fetchGoogleId = async () => {
 			try {
 				const { data } = await axios.get('/api/config/google')
-				setGoogleClient(data.googleClientId)
+				setGoogleClient(data.googleClientId || FALLBACK_GOOGLE_CLIENT_ID)
 				console.log('Google Client ID set')
 			}
 			catch (error) {
 				console.error('Failed to fetch Google Client ID:', error)
+				setGoogleClient(FALLBACK_GOOGLE_CLIENT_ID)
 			}
 		}
 		fetchGoogleId()
 	}, [])
+	
 	
 	return (
 		<ChakraProvider theme={theme}> {!googleClient ? (
