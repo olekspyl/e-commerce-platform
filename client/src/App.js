@@ -41,7 +41,7 @@ function App() {
 	useEffect(() => {
 		const fetchGoogleId = async () => {
 			try {
-				const { data } = await axios.get('/api/config/google')
+				const { data } = await axios.get('https://e-commerce-platform-bajt.onrender.com/api/config/google')
 				console.log('Google ID from server:', data)
 				setGoogleClient(data.googleClientId || FALLBACK_GOOGLE_CLIENT_ID)
 			}
