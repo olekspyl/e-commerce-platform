@@ -8,7 +8,7 @@
 		"start": "node server/index.js",
 		"server": "node server/index.js",
 		"client": "npm run start --prefix client",
-		"build": "cd ../client && npm install && npm run build",
+		"build": "cd client && npm install && npm run build",
 		"app": "concurrently npm \"npm run server\" \"npm run client\""
 	},
 	"keywords": [],
