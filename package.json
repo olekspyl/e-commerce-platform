@@ -5,10 +5,10 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"start": "cd server && node index.js",
+		"start": "node server/index.js",
 		"build": "cd client && npm install && npm run build",
 		"client": "npm run start --prefix client",
-		"server": "cd server && node index.js",
+		"server": "node server/index.js",
 		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
 	"keywords": [],
