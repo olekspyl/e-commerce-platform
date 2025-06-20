@@ -5,11 +5,11 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node server/index.js",
-		"server": "node server/index.js",
-		"client": "npm run start --prefix client",
+		"start": "cd server && node index.js",
 		"build": "cd client && npm install && npm run build",
-		"app": "concurrently npm \"npm run server\" \"npm run client\""
+		"client": "npm run start --prefix client",
+		"server": "cd server && node index.js",
+		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
 	"keywords": [],
 	"author": "",
